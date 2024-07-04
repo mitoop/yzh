@@ -21,5 +21,10 @@
     "require-dev": {
         "laravel/framework": "^11",
         "laravel/pint": "^1.16"
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["Mitoop\\Yzh\\ServiceProvider"]
+        }
     }
 }
