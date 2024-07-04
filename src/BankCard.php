@@ -18,29 +18,39 @@ class BankCard
     {
     }
 
-    public function setCardNo(string $cardNo): void
+    public function setCardNo(string $cardNo): static
     {
         $this->cardNo = $cardNo;
+
+        return $this;
     }
 
-    public function setAliPayNo(string $aliPayNo): void
+    public function setAliPayNo(string $aliPayNo): static
     {
         $this->aliPayNo = $aliPayNo;
+
+        return $this;
     }
 
-    public function setRealName(string $realName): void
+    public function setRealName(string $realName): static
     {
         $this->realName = $realName;
+
+        return $this;
     }
 
-    public function setPhoneNo(string $phoneNo): void
+    public function setPhoneNo(string $phoneNo): static
     {
         $this->phoneNo = $phoneNo;
+
+        return $this;
     }
 
-    public function setIdCard(string $idCard): void
+    public function setIdCard(string $idCard): static
     {
         $this->idCard = $idCard;
+
+        return $this;
     }
 
     public function getCardNo(): string
@@ -68,7 +78,7 @@ class BankCard
         return $this->phoneNo;
     }
 
-    public static function create(BankCardType $type): self
+    public static function create(BankCardType $type): static
     {
         return new self($type);
     }
