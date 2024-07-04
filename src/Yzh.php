@@ -10,8 +10,8 @@ use Yzh\Model\Payment\CreateAlipayOrderResponse;
 
 /**
  * @method static ApiUserSignContractResponse getContract()
- * @method static ApiUserSignResponse userSign(string $name, string $idCard)
- * @method static ApiUserSignReleaseResponse userUnsign(string $name, string $idCard)
+ * @method static ApiUserSignResponse sign(string $name, string $idCard)
+ * @method static ApiUserSignReleaseResponse unsign(string $name, string $idCard)
  * @method static CreateAlipayOrderResponse pay(BankCard $bankCard, string $amount, string $orderId, string $payRemark = '',string $notifyUrl = '',string $projectId = '')
  *
  * @see Service
