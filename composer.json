@@ -1,0 +1,25 @@
+{
+    "name": "mitoop/yzh",
+    "description": "yunzhanghu",
+    "type": "library",
+    "require": {
+        "yunzhanghuopen/sdk-php": "^2.0",
+        "archtechx/enums": "^1.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mitoop\\Yzh\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mitoop",
+            "email": "me@mitoop.com"
+        }
+    ],
+    "require-dev": {
+        "laravel/framework": "^11",
+        "laravel/pint": "^1.16"
+    }
+}
