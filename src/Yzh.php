@@ -3,17 +3,13 @@
 namespace Mitoop\Yzh;
 
 use Throwable;
-use Yzh\Model\Apiusersign\ApiUserSignContractResponse;
-use Yzh\Model\Apiusersign\ApiUserSignReleaseResponse;
-use Yzh\Model\Apiusersign\ApiUserSignResponse;
 use Yzh\Model\BaseResponse;
-use Yzh\Model\Payment\CreateAlipayOrderResponse;
 
 /**
- * @method static ApiUserSignContractResponse getContract()
- * @method static ApiUserSignResponse sign(string $name, string $idCard)
- * @method static ApiUserSignReleaseResponse unsign(string $name, string $idCard)
- * @method static CreateAlipayOrderResponse pay(BankCard $bankCard, string $amount, string $orderId, string $payRemark = '',string $notifyUrl = '',string $projectId = '')
+ * @method static Response getContract()
+ * @method static Response sign(string $name, string $idCard)
+ * @method static Response unsign(string $name, string $idCard)
+ * @method static Response pay(BankCard $bankCard, string $amount, string $orderId, string $payRemark = '',string $notifyUrl = '',string $projectId = '')
  *
  * @see Service
  */
