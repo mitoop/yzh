@@ -21,6 +21,8 @@ class Service
 {
     protected static string $payRemark = '';
 
+    protected static string $notifyUrl = '';
+
     protected static string $projectId = '';
 
     protected Config $config;
@@ -131,7 +133,7 @@ class Service
     /**
      * @param  string  $amount  string 类型 单位为元 支持两位小数
      * @param  string  $orderId  最大64位
-     * @param  string  $payRemark  订单备注
+     * @param  string  $payRemark  订单备注 [选填]
      * @param  string  $notifyUrl  回调地址 [选填] 长度不超过 200 个字符
      * @param  string  $projectId  项目ID [选填] 该字段由云账户分配，当接口指定项目时，会将订单关联指定项目
      */
@@ -144,6 +146,7 @@ class Service
         string $projectId = ''
     ): CreateBankpayOrderResponse|CreateAlipayOrderResponse {
         $payRemark = ($payRemark !== '') ? $payRemark : static::$payRemark;
+        $notifyUrl = ($notifyUrl !== '') ? $notifyUrl : static::$notifyUrl;
         $projectId = ($projectId !== '') ? $projectId : static::$projectId;
 
         if ($bankCard->type->is(BankCardType::BANK)) {
@@ -158,6 +161,11 @@ class Service
     public static function payRemarkUsing(string $payRemark): void
     {
         static::$payRemark = $payRemark;
+    }
+
+    public static function notifyUrlUsing(string $notifyUrl): void
+    {
+        static::$notifyUrl = $notifyUrl;
     }
 
     public static function projectIdUsing(string $projectId): void

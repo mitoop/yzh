@@ -16,6 +16,10 @@ class ServiceProvider extends LaravelServiceProvider
             Service::payRemarkUsing((string) $config['pay_remark']);
         }
 
+        if (isset($config['notify_url'])) {
+            Service::notifyUrlUsing((string) $config['notify_url']);
+        }
+
         if (isset($config['project_id'])) {
             Service::projectIdUsing((string) $config['project_id']);
         }
