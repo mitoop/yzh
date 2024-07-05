@@ -29,7 +29,7 @@ class Response
     {
         if ($response = $this->response) {
             if ($response instanceof NotifyResponse) {
-                return collect(json_decode($response->getData(), true));
+                return collect(json_decode($response->getData(), true))->dot();
             }
 
             $data = $response->getData();
