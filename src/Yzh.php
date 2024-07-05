@@ -6,6 +6,7 @@ use Throwable;
 use Yzh\Model\Apiusersign\ApiUserSignContractResponse;
 use Yzh\Model\Apiusersign\ApiUserSignReleaseResponse;
 use Yzh\Model\Apiusersign\ApiUserSignResponse;
+use Yzh\Model\BaseResponse;
 use Yzh\Model\Payment\CreateAlipayOrderResponse;
 
 /**
@@ -21,9 +22,21 @@ class Yzh
     public static function __callStatic(string $method, array $args)
     {
         try {
-            return app(Service::class)->$method(...$args);
+            /** @var BaseResponse $response */
+            $response = app(Service::class)->$method(...$args);
+
+            if ($response->isSuccess()) {
+                return new Response(true, response: $response);
+            }
+
+            return new Response(
+                false,
+                error: sprintf('%s:%s %s', $response->getCode(), $response->getMessage(), $response->getRequestID()));
         } catch (Throwable $e) {
-            throw new YzhException($e->getMessage(), previous: $e);
+            return new Response(
+                false,
+                error: sprintf('%s:%s %s', $e->getFile(), $e->getLine(), $e->getMessage())
+            );
         }
     }
 }
