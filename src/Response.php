@@ -7,6 +7,7 @@ use Yzh\Model\Apiusersign\ApiUserSignContractResponseData;
 use Yzh\Model\Apiusersign\ApiUserSignReleaseResponseData;
 use Yzh\Model\Apiusersign\ApiUserSignResponseData;
 use Yzh\Model\BaseResponse;
+use Yzh\Model\Notify\NotifyResponse;
 use Yzh\Model\Payment\CreateAlipayOrderResponseData;
 use Yzh\Model\Payment\CreateBankpayOrderResponseData;
 
@@ -14,7 +15,7 @@ class Response
 {
     public function __construct(
         protected bool $status,
-        protected ?BaseResponse $response = null,
+        protected BaseResponse|NotifyResponse|null $response = null,
         protected string $error = ''
     ) {
     }
@@ -27,6 +28,10 @@ class Response
     public function data(): Collection
     {
         if ($response = $this->response) {
+            if ($response instanceof NotifyResponse) {
+                return collect(json_decode($response->getData(), true));
+            }
+
             $data = $response->getData();
 
             if ($data instanceof ApiUserSignContractResponseData) {

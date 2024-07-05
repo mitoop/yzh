@@ -6,15 +6,12 @@ use Illuminate\Support\Str;
 use Yzh\ApiUserSignServiceClient;
 use Yzh\Config;
 use Yzh\Model\Apiusersign\ApiUserSignContractRequest;
-use Yzh\Model\Apiusersign\ApiUserSignContractResponse;
 use Yzh\Model\Apiusersign\ApiUserSignReleaseRequest;
-use Yzh\Model\Apiusersign\ApiUserSignReleaseResponse;
 use Yzh\Model\Apiusersign\ApiUserSignRequest;
-use Yzh\Model\Apiusersign\ApiUserSignResponse;
+use Yzh\Model\Notify\NotifyRequest;
 use Yzh\Model\Payment\CreateAlipayOrderRequest;
-use Yzh\Model\Payment\CreateAlipayOrderResponse;
 use Yzh\Model\Payment\CreateBankpayOrderRequest;
-use Yzh\Model\Payment\CreateBankpayOrderResponse;
+use Yzh\NotifyClient;
 use Yzh\PaymentClient;
 
 class Service
@@ -24,6 +21,8 @@ class Service
     protected static string $notifyUrl = '';
 
     protected static string $projectId = '';
+
+    protected static bool $validateNotifyIP = false;
 
     protected Config $config;
 
@@ -35,7 +34,7 @@ class Service
         $this->config = Config::newFromArray($config);
     }
 
-    public function getContract(): ApiUserSignContractResponse
+    public function getContract(): ResponseAdapter
     {
         $client = new ApiUserSignServiceClient($this->config);
 
@@ -46,10 +45,10 @@ class Service
 
         $request->setRequestID((string) Str::orderedUuid());
 
-        return $client->apiUserSignContract($request);
+        return new ResponseAdapter($client->apiUserSignContract($request));
     }
 
-    public function sign(string $name, string $idCard): ApiUserSignResponse
+    public function sign(string $name, string $idCard): ResponseAdapter
     {
         $client = new ApiUserSignServiceClient($this->config);
 
@@ -63,10 +62,10 @@ class Service
 
         $request->setRequestID((string) Str::orderedUuid());
 
-        return $client->apiUserSign($request);
+        return new ResponseAdapter($client->apiUserSign($request));
     }
 
-    public function unsign(string $name, string $idCard): ApiUserSignReleaseResponse
+    public function unsign(string $name, string $idCard): ResponseAdapter
     {
         $client = new ApiUserSignServiceClient($this->config);
 
@@ -80,10 +79,16 @@ class Service
 
         $request->setRequestID((string) Str::orderedUuid());
 
-        return $client->apiUserSignRelease($request);
+        return new ResponseAdapter($client->apiUserSignRelease($request));
     }
 
-    protected function payWithBankCard(BankCard $bankCard, string $amount, string $orderId, string $payRemark, string $notifyUrl, string $projectId): CreateBankpayOrderResponse
+    protected function payWithBankCard(
+        BankCard $bankCard,
+        string $amount,
+        string $orderId,
+        string $payRemark,
+        string $notifyUrl,
+        string $projectId): ResponseAdapter
     {
         $client = new PaymentClient($this->config);
 
@@ -103,10 +108,16 @@ class Service
 
         $request->setRequestID((string) Str::orderedUuid());
 
-        return $client->createBankpayOrder($request);
+        return new ResponseAdapter($client->createBankpayOrder($request));
     }
 
-    protected function payWithAlipay(BankCard $bankCard, string $amount, string $orderId, string $payRemark, string $notifyUrl, string $projectId): CreateAlipayOrderResponse
+    protected function payWithAlipay(
+        BankCard $bankCard,
+        string $amount,
+        string $orderId,
+        string $payRemark,
+        string $notifyUrl,
+        string $projectId): ResponseAdapter
     {
         $client = new PaymentClient($this->config);
 
@@ -127,7 +138,7 @@ class Service
 
         $request->setRequestID((string) Str::orderedUuid());
 
-        return $client->createAlipayOrder($request);
+        return new ResponseAdapter($client->createAlipayOrder($request));
     }
 
     /**
@@ -144,7 +155,7 @@ class Service
         string $payRemark = '',
         string $notifyUrl = '',
         string $projectId = ''
-    ): CreateBankpayOrderResponse|CreateAlipayOrderResponse {
+    ): ResponseAdapter {
         $payRemark = ($payRemark !== '') ? $payRemark : static::$payRemark;
         $notifyUrl = ($notifyUrl !== '') ? $notifyUrl : static::$notifyUrl;
         $projectId = ($projectId !== '') ? $projectId : static::$projectId;
@@ -156,6 +167,15 @@ class Service
         if ($bankCard->type->is(BankCardType::ALIPAY)) {
             return $this->payWithAlipay($bankCard, $amount, $orderId, $payRemark, $notifyUrl, $projectId);
         }
+    }
+
+    public function processCallback(): ResponseAdapter
+    {
+        $client = new NotifyClient($this->config);
+
+        $request = new NotifyRequest(request('data'), request('mess'), request('timestamp'), request('sign'));
+
+        return new ResponseAdapter($client->verifyAndDecrypt($request));
     }
 
     public static function payRemarkUsing(string $payRemark): void
