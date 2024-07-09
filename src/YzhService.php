@@ -17,7 +17,7 @@ use Yzh\Config;
  * @method Response sign(string $name, string $idCard)
  * @method Response unsign(string $name, string $idCard)
  * @method Response payWithAlipay(string $alipay,string $amount,string $realName,string $idCard,string $phoneNo,string $orderId,string $payRemark = '',string $notifyUrl = '',string $projectId = '')
- * @method Response PayWithBankCard(string $cardNo,string $amount,string $realName,string $idCard,string $phoneNo,string $orderId,string $payRemark = '',string $notifyUrl = '',string $projectId = '')
+ * @method Response payWithBankCard(string $cardNo,string $amount,string $realName,string $idCard,string $phoneNo,string $orderId,string $payRemark = '',string $notifyUrl = '',string $projectId = '')
  * @method Response notify()
  *
  * @see API\Contract
