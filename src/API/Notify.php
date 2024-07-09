@@ -17,7 +17,7 @@ class Notify extends BaseAPI
 
         $response = $client->verifyAndDecrypt($request);
 
-        if ($status = $response->getSignRes() && $response->getDescryptRes()) {
+        if ($status = ($response->getSignRes() && $response->getDescryptRes())) {
             $this->data = json_decode($response->getData(), true);
         }
 
