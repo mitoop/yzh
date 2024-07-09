@@ -10,18 +10,12 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $config = config('services.yzh', []);
 
-        $this->app->singleton(Service::class, fn () => new Service($config));
+        Config::payRemarkUsing((string) ($config['pay_remark'] ?? ''));
+        Config::notifyUrlUsing((string) ($config['notify_url'] ?? ''));
+        Config::projectIdUsing((string) ($config['project_id'] ?? ''));
 
-        if (isset($config['pay_remark'])) {
-            Service::payRemarkUsing((string) $config['pay_remark']);
-        }
+        $this->app->singleton(YzhService::class, fn () => new YzhService($config));
 
-        if (isset($config['notify_url'])) {
-            Service::notifyUrlUsing((string) $config['notify_url']);
-        }
-
-        if (isset($config['project_id'])) {
-            Service::projectIdUsing((string) $config['project_id']);
-        }
+        $this->app->alias(YzhService::class, 'yzh');
     }
 }

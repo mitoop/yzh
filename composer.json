@@ -3,8 +3,7 @@
     "description": "yunzhanghu",
     "type": "library",
     "require": {
-        "yunzhanghuopen/sdk-php": "^2.0",
-        "archtechx/enums": "^1.0"
+        "yunzhanghuopen/sdk-php": "^2.0"
     },
     "license": "MIT",
     "autoload": {
