@@ -1,8 +1,7 @@
 ## YunZhangHu
 
+#### `config/services.php`
 
-#### Config
-`config/services.php`
 ```php
     // ...
     'yzh' => [
@@ -15,10 +14,9 @@
         'yzh_public_key' => env('YZH_YZH_PUBLIC_KEY', storage_path('certs/yzh_public.pem')),
         'sign_type' => 'rsa',
         'timeout' => 30,
-        
-        // 支付全局配置 调用 pay 方法指定的配置优先级高于全局配置
+        // 支付全局默认配置
         'pay_remark' => 'remark', // 订单备注 [选填] 银行卡支付时最大36个字符 支付宝支付时候最大40个字符 都不能包含特殊字符
         'notify_url' => 'notify url', // 回调地址 [选填] 长度不超过 200 个字符
         'project_id' => 'project id', // 项目ID [选填] 该字段由云账户分配，当接口指定项目时，会将订单关联指定项目
-    // ...
+    ],
 ```
