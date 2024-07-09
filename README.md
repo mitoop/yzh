@@ -45,7 +45,7 @@ Yzh::payWithAlipay($alipay, $amount, $realName, $idCard, $phoneNo, $orderId);
 Yzh::notify();
 
 // 所有方法都返回 `Mitoop\Yzh\Response` 实例
-// Response实例提供三个方法 `ok`, `data`, `error`
+// Response 实例提供三个方法 `ok`, `data`, `error`
 // `ok` 判断请求是否成功
 // `data` 获取返回数据
 // `error` 获取错误信息
