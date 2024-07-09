@@ -23,7 +23,12 @@
     },
     "extra": {
         "laravel": {
-            "providers": ["Mitoop\\Yzh\\ServiceProvider"]
+            "providers": [
+                "Mitoop\\Yzh\\ServiceProvider"
+            ],
+            "alias" : {
+                "Yzh": "Mitoop\\Yzh\\Yzh"
+            }
         }
     }
 }
