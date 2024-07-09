@@ -4,11 +4,11 @@ namespace Mitoop\Yzh;
 
 class Config
 {
-    protected static string $payRemark;
+    public static string $payRemark;
 
-    protected static string $notifyUrl;
+    public static string $notifyUrl;
 
-    protected static string $projectId;
+    public static string $projectId;
 
     public static function payRemarkUsing($remark): void
     {

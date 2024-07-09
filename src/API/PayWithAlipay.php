@@ -3,6 +3,7 @@
 namespace Mitoop\Yzh\API;
 
 use Illuminate\Support\Str;
+use Mitoop\Yzh\Config;
 use Mitoop\Yzh\Response;
 use Yzh\Model\Payment\CreateAlipayOrderRequest;
 use Yzh\PaymentClient;
@@ -21,6 +22,10 @@ class PayWithAlipay extends BaseAPI
         string $projectId = ''): Response
     {
         $client = new PaymentClient($this->config);
+
+        $payRemark = ($payRemark !== '' ? $payRemark : Config::$payRemark);
+        $notifyUrl = ($notifyUrl !== '' ? $notifyUrl : Config::$notifyUrl);
+        $projectId = ($projectId !== '' ? $projectId : Config::$projectId);
 
         $request = new CreateAlipayOrderRequest([
             'order_id' => $orderId,
