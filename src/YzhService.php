@@ -50,8 +50,9 @@ class YzhService
             return self::$cachedConfig;
         }
 
-        $config['app_private_key'] = file_get_contents($this->config['app_private_key']);
-        $config['yzh_public_key'] = file_get_contents($this->config['yzh_public_key']);
+        $config = $this->config;
+        $config['app_private_key'] = file_get_contents($config['app_private_key']);
+        $config['yzh_public_key'] = file_get_contents($config['yzh_public_key']);
 
         return static::$cachedConfig = Config::newFromArray($config);
     }
@@ -60,7 +61,7 @@ class YzhService
     {
         try {
             if (isset($this->methods[$method])) {
-                $class = $this->methods[$method]($this->getConfig());
+                $class = new $this->methods[$method]($this->getConfig());
 
                 return call_user_func_array([$class, 'handle'], $args);
             }
