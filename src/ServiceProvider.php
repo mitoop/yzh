@@ -25,7 +25,7 @@ class ServiceProvider extends LaravelServiceProvider
             'sign' => Sign::class,
             'unsign' => Unsign::class,
             'payWithAlipay' => PayWithAlipay::class,
-            'PayWithBankCard' => PayWithBankCard::class,
+            'payWithBankCard' => PayWithBankCard::class,
             'notify' => Notify::class,
         ]);
 
