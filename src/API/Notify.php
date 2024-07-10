@@ -13,7 +13,12 @@ class Notify extends BaseAPI
     {
         $client = new NotifyClient($this->config);
 
-        $request = new NotifyRequest(request('data'), request('mess'), request('timestamp'), request('sign'));
+        $request = new NotifyRequest(
+            (string) request('data'),
+            (string) request('mess'),
+            (string) request('timestamp'),
+            (string) request('sign')
+        );
 
         $response = $client->verifyAndDecrypt($request);
 
