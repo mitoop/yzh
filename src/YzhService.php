@@ -3,12 +3,6 @@
 namespace Mitoop\Yzh;
 
 use Exception;
-use Mitoop\Yzh\API\Contract;
-use Mitoop\Yzh\API\Notify;
-use Mitoop\Yzh\API\PayWithAlipay;
-use Mitoop\Yzh\API\PayWithBankCard;
-use Mitoop\Yzh\API\Sign;
-use Mitoop\Yzh\API\Unsign;
 use Throwable;
 use Yzh\Config;
 
@@ -29,16 +23,9 @@ use Yzh\Config;
  */
 class YzhService
 {
-    private static ?Config $cachedConfig = null;
+    protected static ?Config $cachedConfig = null;
 
-    protected array $methods = [
-        'getContract' => Contract::class,
-        'sign' => Sign::class,
-        'unsign' => Unsign::class,
-        'payWithAlipay' => PayWithAlipay::class,
-        'PayWithBankCard' => PayWithBankCard::class,
-        'notify' => Notify::class,
-    ];
+    protected static array $methods = [];
 
     public function __construct(protected array $config)
     {
@@ -57,11 +44,22 @@ class YzhService
         return static::$cachedConfig = Config::newFromArray($config);
     }
 
+    public static function register($method, $class = null): void
+    {
+        if (is_array($method)) {
+            foreach ($method as $key => $value) {
+                static::register($key, $value);
+            }
+        } else {
+            static::$methods[$method] = $class;
+        }
+    }
+
     public function __call(string $method, array $args)
     {
         try {
-            if (isset($this->methods[$method])) {
-                $class = new $this->methods[$method]($this->getConfig());
+            if (isset(static::$methods[$method])) {
+                $class = new static::$methods[$method]($this->getConfig());
 
                 return call_user_func_array([$class, 'handle'], $args);
             }

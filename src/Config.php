@@ -12,16 +12,16 @@ class Config
 
     public static function payRemarkUsing($remark): void
     {
-        static::$payRemark = $remark;
+        static::$payRemark = (string) $remark;
     }
 
     public static function notifyUrlUsing($url): void
     {
-        static::$notifyUrl = $url;
+        static::$notifyUrl = (string) $url;
     }
 
     public static function projectIdUsing($id): void
     {
-        static::$projectId = $id;
+        static::$projectId = (string) $id;
     }
 }

@@ -1,6 +1,11 @@
 <h1 align="center">云账户</h1>
 <p align="center">灵活就业服务</p>
 
+## 安装
+
+```shell
+composer require mitoop/yzh
+```
 
 ## 配置
 `config/services.php`
@@ -27,7 +32,7 @@
     ],
 ```
 
-## 配置
+## 使用
 ```php
 use Yzh;
 
@@ -56,7 +61,7 @@ if ($response->ok()){
    // or
    $status = $response->data('data.status')
 } else {
-  echo $response->error();
+   echo $response->error();
 }
 
 ```
